@@ -4,19 +4,19 @@ const wrapAsync=require("../utils/wrapAsync.js");
 const {isLoggedIn,isOwner,validateListing}=require("../middleware.js");
 const linstingController=require("../controllers/listing.js");
 const multer=require("multer");
+// const upload=multer({dest:'uploads/'});
+
 const{storage}=require("../cloudConfig.js");
 const upload=multer({storage});
 
 
 
-//new route
-router.get("/new",isLoggedIn,(linstingController.renderNewForm));
 
 router.route("/")
       .get(wrapAsync(linstingController.index))
        .post(isLoggedIn,upload.single("listing[image]"),validateListing,wrapAsync(linstingController.createListing));
-
-
+  
+router.get("/new",isLoggedIn,(linstingController.renderNewForm));
 
 
 router.route("/:id")
